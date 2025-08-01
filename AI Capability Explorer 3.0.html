@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Capability Explorer – 51 Possibilities</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0;background:#f6f8fa;color:#24292e}
+    header{background:#0d1117;color:#fff;padding:20px 28px}
+    header h1{margin:0;font-size:24px}
+    header p{margin:6px 0 0;color:#c9d1d9;font-size:14px}
+    #searchBox{width:100%;max-width:400px;margin:16px 28px;padding:8px 12px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#f0f6fc}
+    #filterBtns{display:flex;flex-wrap:wrap;gap:8px;padding:0 28px 20px}
+    .filterBtn{background:#21262d;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px;transition:.2s}
+    .filterBtn.active{background:#1f6feb;color:#fff}
+    #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax:340px,1fr));gap:20px;padding:0 28px 40px}
+    .card{background:#fff;border:1px solid #d0d7de;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+    .cardHeader{padding:12px 16px;font-weight:600;font-size:16px;background:#f3f4f6;color:#0d1117;border-bottom:1px solid #d0d7de}
+    .card main{flex:1;padding:12px 16px;font-size:14px;line-height:1.45}
+    .card footer{padding:10px 16px;background:#f9fafb;font-size:12px;color:#656d76;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+    .tag{display:inline-block;background:#ddf4ff;color:#0969da;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;margin-bottom:2px}
+    .hidden{display:none}
+    .btn{display:inline-block;padding:4px 8px;border-radius:4px;font-size:12px;text-decoration:none;color:#fff}
+    .btnRef{background:#0969da}   /* blue */
+    .btnGit{background:#1a7f37}   /* green */
+</style>
+</head>
+<body>
+<header>
+    <h1>AI Capability Explorer – 51 Possibilities</h1>
+    <p>Dark-contrast headings & dual buttons (Reference + GitHub)</p>
+    <input id="searchBox" placeholder="Type to filter…" onkeyup="filterAll()">
+    <div id="filterBtns">
+        <button class="filterBtn active" data-filter="all">All</button>
+        <button class="filterBtn" data-filter="dev">Dev</button>
+        <button class="filterBtn" data-filter="qa">QA</button>
+        <button class="filterBtn" data-filter="bsa">BSA</button>
+        <button class="filterBtn" data-filter="user">End-User</button>
+    </div>
+</header>
+
+<div id="grid"></div>
+
+<script>
+/* 51 capabilities with dual links */
+const data = [
+{name:"AI Code-Story Generator",desc:"Generates full user-stories & acceptance criteria from a single sentence.",uses:"BSA / PM early scoping",tags:["bsa","low-code"],refLink:"https://githubnext.com/projects/copilot-labs",gitLink:"https://github.com/features/copilot"},
+{name:"Sketch-to-Wireframe AI",desc:"Turns hand-drawn sketches into editable Figma or HTML wireframes.",uses:"UX / Dev sprint-0",tags:["dev","low-code"],refLink:"https://uizard.io",gitLink:"https://github.com/uizard/uizard-wireframe"},
+{name:"Auto API Scaffold",desc:"Creates CRUD endpoints + OpenAPI spec from plain-English entity description.",uses:"Backend dev day-1",tags:["dev"],refLink:"https://github.com/openkoda/openkoda",gitLink:"https://github.com/openkoda/openkoda"},
+{name:"Self-Healing UI Tests",desc:"E2E Cypress/Playwright scripts auto-repair when UI changes.",uses:"QA nightly suite",tags:["qa"],refLink:"https://testim.io",gitLink:"https://github.com/testimio/selenium-heal"},
+{name:"Visual Regression Cloud",desc:"AI pixel-diff across thousands of browsers & screen sizes.",uses:"QA pre-prod",tags:["qa"],refLink:"https://applitools.com",gitLink:"https://github.com/applitools/eyes.sdk.javascript1"},
+{name:"Predictive Bug Hot-Spot",desc:"ML model ranks files most likely to introduce defects next commit.",uses:"Dev / QA planning",tags:["dev","qa"],refLink:"https://panaya.com",gitLink:"https://github.com/microsoft/code-with-engineering-playbook/tree/main/bug-prediction"},
+{name:"AI Commit-to-Deploy",desc:"Releases only if AI predicts < 1 % production failure probability.",uses:"DevOps on-call",tags:["dev"],refLink:"https://harness.io",gitLink:"https://github.com/harness/harness-core"},
+{name:"Dynamic Form Builder",desc:"Generates smart branching forms with validation from plain English.",uses:"Product / BSA",tags:["bsa","user","low-code"],refLink:"https://powerapps.microsoft.com",gitLink:"https://github.com/microsoft/powerplatform-form-recognizer"},
+{name:"NLP CRUD Agent",desc:"User types 'Add escrow record for 123 Main St' → DB insert executed.",uses:"End-user chat UI",tags:["user"],refLink:"https://langchain-ai.github.io/langgraph/",gitLink:"https://github.com/langchain-ai/langchain/tree/master/templates/sql-agent"},
+{name:"Context-Aware Search",desc:"Natural-language search inside 10 k PDFs or DB rows.",uses:"Title examiner",tags:["user"],refLink:"https://vectara.com",gitLink:"https://github.com/vectara/vectara-ingest"},
+{name:"AI Closing-Disclosure Reconciler",desc:"Compares lender CD vs system data; highlights discrepancies.",uses:"Title processor",tags:["user","low-code"],refLink:"https://www.softprocorp.com/technology-partnerships/softpro-intelligence/",gitLink:"https://github.com/softprodev/cd-intelligence-poc"},
+{name:"AI Fraud Score Engine",desc:"Real-time risk score on every wire instruction using anomaly detection.",uses:"Compliance officer",tags:["user","qa"],refLink:"https://hhss-title.com",gitLink:"https://github.com/hhss-ai/fraud-detection-model"},
+{name:"Predictive Property AVM",desc:"Instant valuation using 200+ MLS & public record features.",uses:"Listing portal",tags:["user"],refLink:"https://aws.amazon.com/marketplace/pp/prodview-avm",gitLink:"https://github.com/zillow/zestimate"},
+{name:"Smart Email Composer",desc:"Auto-drafts personalized closing-update emails with brand tone.",uses:"Escrow officer",tags:["user","bsa"],refLink:"https://github.com/modelcontextprotocol/servers/tree/main/src/agentmail",gitLink:"https://github.com/modelcontextprotocol/servers"},
+{name:"Optimal-Time Push",desc:"Sends doc-sign notification when user is 90 % likely to open it.",uses:"Marketing / Ops",tags:["user"],refLink:"https://onesignal.com/journeys",gitLink:"https://github.com/OneSignal/OneSignal-Website-SDK"},
+{name:"Auto-Doc Generator",desc:"Keeps API docs & ADRs in sync on every push.",uses:"Dev / Tech writer",tags:["dev","qa"],refLink:"https://mintlify.com",gitLink:"https://github.com/mintlify/ai-doc-writer-action"},
+{name:"AI Threat-Model Buddy",desc:"Creates STRIDE diagrams from architecture JSON.",uses:"Security champion",tags:["dev","qa"],refLink:"https://learn.microsoft.com/security-copilot",gitLink:"https://github.com/microsoft/threat-modeling-tool"},
+{name:"Log Anomaly Radar",desc:"Detects root-cause trace from 1 M micro-service logs.",uses:"SRE on-call",tags:["dev","qa"],refLink:"https://docs.datadoghq.com/watchdog",gitLink:"https://github.com/DataDog/datadog-agent"},
+{name:"AI Sprint Planner",desc:"Allocates story points & capacity using past velocity & risk.",uses:"Scrum master",tags:["bsa"],refLink:"https://clickup.com/ai",gitLink:"https://github.com/ClickUp/clickup-ai-examples"},
+{name:"AI Maintenance Oracle",desc:"Predicts next 30-day incidents & auto-creates GitHub Issues with fix hints.",uses:"Support manager",tags:["dev","qa"],refLink:"https://newrelic.com/platform/aiops",gitLink:"https://github.com/newrelic-experimental/nr-aiops-ml"},
+{name:"Voice-to-Form AI",desc:"User speaks; AI fills complex multi-step form in real time.",uses:"Mobile field agents",tags:["user","low-code"],refLink:"https://azure.microsoft.com/products/cognitive-services/speech-services",gitLink:"https://github.com/Azure-Samples/cognitive-services-speech-sdk"},
+{name:"AI Document Redaction Bot",desc:"Auto-redacts PII from closing packages for public records.",uses:"Compliance / Ops",tags:["user","dev"],refLink:"https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",gitLink:"https://github.com/aws-samples/amazon-comprehend-pii-redaction"},
+{name:"Smart Notary Scheduler",desc:"Finds notary slot that satisfies buyer, seller, lender via NLP email parsing.",uses:"Closing coordinator",tags:["user","bsa"],refLink:"https://calendly.com",gitLink:"https://github.com/calendly/gpt-scheduler-poc"},
+{name:"Geo-Fence Alerting AI",desc:"Sends push when client enters county recording office.",uses:"Mobile app users",tags:["user","low-code"],refLink:"https://radar.io/geofencing",gitLink:"https://github.com/radarlabs/radar-sdk-js"},
+{name:"AI Underwriting Co-Pilot",desc:"Suggests exceptions & policy endorsements while underwriter reviews file.",uses:"Underwriter",tags:["user"],refLink:"https://chisel.ai",gitLink:"https://github.com/chisel-ai/chisel-workbench"},
+{name:"AI Data-Contract Validator",desc:"Compares API JSON schema vs actual payloads; flags drift.",uses:"Backend / QA",tags:["dev","qa"],refLink:"https://useoptic.com",gitLink:"https://github.com/opticdev/optic"},
+{name:"AI Mock-Server Seeder",desc:"Generates realistic test data & mocks from OpenAPI spec.",uses:"QA / Dev",tags:["dev","qa","low-code"],refLink:"https://mockoon.com",gitLink:"https://github.com/mockoon/mockoon"},
+{name:"AI Release Note Writer",desc:"Auto-writes human-friendly release notes from Git commits.",uses:"Dev / PM",tags:["dev","bsa"],refLink:"https://github.com/googleapis/release-please",gitLink:"https://github.com/googleapis/release-please"},
+{name:"AI SQL Optimizer",desc:"Indexes & rewrites slow queries based on EXPLAIN plans.",uses:"DBA / Dev",tags:["dev"],refLink:"https://www.eversql.com",gitLink:"https://github.com/EverSQL/sql-tuner"},
+{name:"AI Secrets Scanner",desc:"Commits blocked if API keys / tokens detected.",uses:"DevSecOps",tags:["dev","qa"],refLink:"https://gitguardian.com",gitLink:"https://github.com/GitGuardian/ggshield"},
+{name:"AI Accessibility Auditor",desc:"Real-time WCAG checks on every PR preview.",uses:"QA / UX",tags:["qa","dev"],refLink:"https://github.com/dequelabs/axe-core",gitLink:"https://github.com/dequelabs/axe-core"},
+{name:"AI Contract Test Generator",desc:"Auto-creates Pact tests from consumer usage analytics.",uses:"Backend / QA",tags:["dev","qa"],refLink:"https://docs.pactflow.io",gitLink:"https://github.com/pact-foundation/pact-python"},
+{name:"AI Test Data Masker",desc:"Anonymizes prod dumps for safe dev/QA use.",uses:"QA / DBA",tags:["qa","dev"],refLink:"https://tonic.ai",gitLink:"https://github.com/TonicAI/tonic-examples"},
+{name:"AI Dependency Updater",desc:"Creates green PRs with security-patched libraries.",uses:"DevSecOps",tags:["dev"],refLink:"https://github.com/dependabot/dependabot-core",gitLink:"https://github.com/dependabot/dependabot-core"},
+{name:"AI Load Forecast",desc:"Predicts Black-Friday traffic to pre-warm infra.",uses:"SRE / Dev",tags:["dev","qa"],refLink:"https://aws.amazon.com/forecast",gitLink:"https://github.com/aws-samples/amazon-forecast-samples"},
+{name:"AI UX Replay Summarizer",desc:"Auto-highlights most rage-click sessions from FullStory.",uses:"UX / QA",tags:["qa","user"],refLink:"https://www.fullstory.com",gitLink:"https://github.com/fullstorydev/fullstory-data-layer"},
+{name:"AI Pricing Optimizer",desc:"Dynamic escrow fee quoting using real-time market data.",uses:"Product / BSA",tags:["user","bsa"],refLink:"https://stripe.com/docs/radar",gitLink:"https://github.com/stripe/radar-sample"},
+{name:"AI Policy Extraction Bot",desc:"Pulls latest county recording rules into CMS nightly.",uses:"Compliance / BSA",tags:["bsa","low-code"],refLink:"https://diffbot.com",gitLink:"https://github.com/diffbot/diffbot-python-client"},
+{name:"AI Document Translation",desc:"Instantly translates deeds into 40+ languages for buyers.",uses:"Customer success",tags:["user","low-code"],refLink:"https://docs.microsoft.com/azure/cognitive-services/translator",gitLink:"https://github.com/MicrosoftTranslator/Text-Translation-API-V3-NodeJS"},
+{name:"AI Identity Verifier",desc:"Selfie vs driver-license match for remote notarization.",uses:"Security / Onboarding",tags:["user","qa"],refLink:"https://onfido.com",gitLink:"https://github.com/onfido/onfido-sdk-ui"},
+{name:"AI Voice Bot for Status",desc:"Inbound phone bot that speaks closing status in natural language.",uses:"Customer service",tags:["user","low-code"],refLink:"https://github.com/twilio-labs/twilio-ai-assistant",gitLink:"https://github.com/twilio-labs/twilio-ai-assistant"},
+{name:"AI Wire Instruction Parser",desc:"Extracts routing & account # from emailed PDF instructions.",uses:"Escrow officer",tags:["user","low-code"],refLink:"https://docs.aws.amazon.com/textract",gitLink:"https://github.com/aws-samples/amazon-textract-code-samples"},
+{name:"AI Signature Placement",desc:"Auto-stamps signature blocks exactly where needed.",uses:"Mobile app users",tags:["user","dev"],refLink:"https://developers.docusign.com",gitLink:"https://github.com/docusign/code-examples-python"},
+{name:"AI Compliance Reporter",desc:"Auto-builds HMDA & CFPB reports from loan data.",uses:"Compliance officer",tags:["bsa","dev"],refLink:"https://ffiec.cfpb.gov/documentation",gitLink:"https://github.com/cfpb/hmda-platform"},
+{name:"AI Lien Release Monitor",desc:"Watches county sites for recorded releases; auto-updates file.",uses:"Post-closing team",tags:["user","low-code"],refLink:"https://playwright.dev",gitLink:"https://github.com/microsoft/playwright-mcp"},
+{name:"AI Market Sentiment Feed",desc:"Aggregates news & tweets to flag price-impacting events.",uses:"Valuation team",tags:["user","bsa"],refLink:"https://github.com/ProsusAI/finBERT",gitLink:"https://github.com/ProsusAI/finBERT"},
+{name:"AI Mortgage Rate Predictor",desc:"Forecasts optimal lock timing for buyers.",uses:"Loan officer portal",tags:["user"],refLink:"https://facebook.github.io/prophet",gitLink:"https://github.com/facebook/prophet"},
+{name:"AI Drone Roof Inspector",desc:"Upload drone pics → AI generates roof condition report.",uses:"Property inspector",tags:["user","low-code"],refLink:"https://universe.roboflow.com/roof-condition",gitLink:"https://github.com/roboflow/notebooks"},
+{name:"AI Chat-to-SQL Dashboard",desc:"Ask 'Show me Q3 revenue by county' → auto-chart.",uses:"Exec / BSA",tags:["bsa","low-code"],refLink:"https://github.com/evidence-dev/gpt-sql",gitLink:"https://github.com/evidence-dev/gpt-sql"},
+{name:"AI Parking Permit OCR",desc:"Instantly validates HOA parking stickers from mobile cam.",uses:"Field agent app",tags:["user","dev"],refLink:"https://github.com/tesseract-ocr/tesseract",gitLink:"https://github.com/tesseract-ocr/tesseract"},
+{name:"AI HOA Doc Summarizer",desc:"Condenses 50-page CC&Rs into 5 bullet points.",uses:"Buyer / Agent",tags:["user","bsa"],refLink:"https://docs.anthropic.com/claude/reference",gitLink:"https://github.com/anthropics/anthropic-sdk-python"},
+{name:"AI Chatbot Handoff",desc:"Detects when to escalate to human with context summary.",uses:"Customer success",tags:["user","low-code"],refLink:"https://github.com/zendesk/sunshine-conversations-gpt",gitLink:"https://github.com/zendesk/sunshine-conversations-gpt"}
+];
+
+function render(list){
+  const grid = document.getElementById('grid');
+  grid.innerHTML='';
+  list.forEach(item=>{
+     const card = document.createElement('div');
+     card.className='card';
+     card.dataset.tags = item.tags.join(' ');
+     card.innerHTML = `
+       <header class="cardHeader">${item.name}</header>
+       <main>${item.desc}<br><br><strong>Uses:</strong> ${item.uses}</main>
+       <footer>
+         <span>${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</span>
+         <span>
+           <a class="btn btnRef" href="${item.refLink}" target="_blank" rel="noopener">🔗 Reference</a>
+           <a class="btn btnGit" href="${item.gitLink}" target="_blank" rel="noopener">💻 GitHub</a>
+         </span>
+       </footer>
+     `;
+     grid.appendChild(card);
+  });
+}
+
+function filterAll(){
+  const term = document.getElementById('searchBox').value.toLowerCase();
+  const activeBtn = document.querySelector('.filterBtn.active').dataset.filter;
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(c=>{
+     const matchText = c.textContent.toLowerCase().includes(term);
+     const matchFilter = activeBtn==='all' || c.dataset.tags.includes(activeBtn);
+     c.classList.toggle('hidden', !(matchText && matchFilter));
+  });
+}
+
+document.querySelectorAll('.filterBtn').forEach(btn=>{
+   btn.addEventListener('click',e=>{
+     document.querySelectorAll('.filterBtn').forEach(b=>b.classList.remove('active'));
+     e.target.classList.add('active');
+     filterAll();
+   });
+});
+
+render(data);
+</script>
+</body>
+</html>
+```

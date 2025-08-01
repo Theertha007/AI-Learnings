@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Agentic SDLC: An Interactive Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Agentic Teal -->
+    <!-- Application Structure Plan: The application is structured as a role-based interactive dashboard. The user first lands on a hero section and is prompted to select a role (BSA, Developer, QA) or explore cross-cutting topics like Advanced Capabilities or Security. This structure was chosen because the source report's content is heavily mapped to these professional roles. This non-linear, persona-driven approach makes the dense information more digestible and relevant to the user's specific context, encouraging exploration rather than linear reading. Selecting a role reveals a dedicated view with a secondary navigation for relevant SDLC phases, each populated with interactive cards detailing AI capabilities. This facilitates a "drill-down" user flow, from role to phase to specific capability. -->
+    <!-- Visualization & Content Choices: The report is rich in qualitative data, organized into categories. Report Info: AI capabilities per SDLC phase/role. Goal: Organize & Inform. Viz/Presentation: Interactive cards in a grid layout. Interaction: Click to reveal details (explanation, tools, impact). Justification: Cards provide a scannable overview, and the click-to-reveal interaction manages information density. Report Info: OWASP AIVSS risk scores. Goal: Compare & Inform. Viz/Presentation: Horizontal Bar Chart (Chart.js/Canvas). Interaction: Tooltips on hover provide exact scores. Justification: A bar chart is the most effective way to visually compare the severity scores of different AI vulnerabilities, making the abstract risk data tangible. Library/Method: Chart.js for its simplicity and responsiveness. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link.active {
+            color: #0d9488;
+            border-bottom: 2px solid #0d9488;
+        }
+        .role-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .capability-card {
+            transition: background-color 0.3s;
+        }
+        .capability-card:hover {
+            background-color: #f1f5f9;
+        }
+        .view {
+            display: none;
+        }
+        .view.active {
+            display: block;
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+        .phase-tab.active {
+            background-color: #0d9488;
+            color: white;
+        }
+        .phase-tab {
+            transition: background-color 0.3s, color 0.3s;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app" class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <header class="flex flex-col sm:flex-row justify-between items-center pb-8 border-b border-slate-200">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">The Agentic SDLC</h1>
+            <nav id="main-nav" class="mt-4 sm:mt-0">
+                <a href="#home" class="nav-link active text-slate-600 hover:text-teal-600 font-medium py-2 px-3">Home</a>
+                <a href="#capabilities" class="nav-link text-slate-600 hover:text-teal-600 font-medium py-2 px-3">Capabilities</a>
+                <a href="#security" class="nav-link text-slate-600 hover:text-teal-600 font-medium py-2 px-3">Security</a>
+            </nav>
+        </header>
+
+        <main>
+            <div id="home-view" class="view active">
+                <section class="text-center py-16">
+                    <h2 class="text-4xl lg:text-5xl font-extrabold text-teal-700 tracking-tight">A New Era of Software Engineering</h2>
+                    <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600">
+                        Artificial Intelligence is reshaping the Software Development Lifecycle (SDLC), evolving from a simple assistant to an autonomous teammate. This report explores the infinite possibilities of AI for BSAs, Developers, and QA professionals.
+                    </p>
+                </section>
+
+                <section>
+                    <h3 class="text-2xl font-bold text-center text-slate-800 mb-8">Choose Your Role to Begin</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="role-card bg-white rounded-xl shadow-md p-8 text-center cursor-pointer" data-role="bsa">
+                            <div class="text-4xl mb-4">📊</div>
+                            <h4 class="text-xl font-bold text-slate-800">Business Systems Analyst</h4>
+                            <p class="text-slate-500 mt-2">Explore AI in requirements, planning, and market analysis.</p>
+                        </div>
+                        <div class="role-card bg-white rounded-xl shadow-md p-8 text-center cursor-pointer" data-role="developer">
+                            <div class="text-4xl mb-4">💻</div>
+                            <h4 class="text-xl font-bold text-slate-800">Developer</h4>
+                            <p class="text-slate-500 mt-2">Discover agentic coding, automated refactoring, and intelligent debugging.</p>
+                        </div>
+                        <div class="role-card bg-white rounded-xl shadow-md p-8 text-center cursor-pointer" data-role="qa">
+                            <div class="text-4xl mb-4">🧪</div>
+                            <h4 class="text-xl font-bold text-slate-800">Quality Assurance</h4>
+                            <p class="text-slate-500 mt-2">Learn about AI-driven testing, synthetic data, and proactive quality.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="role-view" class="view">
+                <section class="py-12">
+                    <button id="back-to-home" class="mb-8 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 px-4 rounded-lg inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to Roles
+                    </button>
+                    <h2 id="role-title" class="text-3xl font-bold text-slate-800"></h2>
+                    <p id="role-intro" class="mt-4 text-lg text-slate-600 max-w-4xl"></p>
+                    
+                    <div id="phase-tabs" class="mt-8 border-b border-slate-200"></div>
+
+                    <div id="capability-grid" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </section>
+            </div>
+            
+            <div id="capabilities-view" class="view">
+                 <section class="py-12">
+                    <h2 class="text-3xl font-bold text-slate-800 text-center">Advanced AI Capabilities</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-4xl mx-auto text-center">Beyond specific roles, AI offers powerful, cross-cutting capabilities that can be integrated into any application. This section details how AI can revolutionize common development tasks like creating forms, managing data, sending communications, and enabling intelligent search.</p>
+                    <div id="advanced-capability-grid" class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"></div>
+                </section>
+            </div>
+
+            <div id="security-view" class="view">
+                <section class="py-12">
+                    <h2 class="text-3xl font-bold text-slate-800 text-center">Fortifying the Future: AI-Driven Security</h2>
+                    <p class="mt-4 text-lg text-slate-600 max-w-4xl mx-auto text-center">As AI becomes integral to the SDLC, securing AI systems themselves is paramount. This section explores the new frontier of DevSecOps, including proactive vulnerability detection, runtime protection, and the frameworks used to score AI-specific risks.</p>
+                    
+                    <div class="mt-12 grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                        <div id="security-capability-grid" class="lg:col-span-2 grid grid-cols-1 gap-6"></div>
+                        <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">OWASP AIVSS Risk Scoring</h3>
+                            <p class="text-slate-600 mb-6">The AI Vulnerability Scoring System (AIVSS) provides a standardized way to measure the severity of risks unique to AI models. This chart visualizes the example severity scores for several key attack vectors, highlighting areas of high risk.</p>
+                            <div class="chart-container relative h-96 w-full max-w-2xl mx-auto">
+                                <canvas id="securityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div id="modal-content" class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 transform scale-95">
+            <div class="flex justify-between items-start">
+                <h3 id="modal-title" class="text-2xl font-bold text-slate-800"></h3>
+                <button id="modal-close" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-body" class="mt-6 text-slate-600"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const appData = {
+                roles: {
+                    bsa: {
+                        title: 'AI for the Business Systems Analyst',
+                        intro: 'For a Business Systems Analyst, AI acts as a powerful partner to transform ambiguous requirements into data-driven, validated project plans. Explore how AI helps in defining, analyzing, and planning software with unprecedented precision, ensuring you build the right product from the very beginning.',
+                        phases: [
+                            {
+                                id: 'requirements',
+                                name: 'Requirements & Planning',
+                                capabilities: [
+                                    {
+                                        title: 'Automated Requirements Extraction',
+                                        details: 'AI, particularly NLP, automates the conversion of unstructured data (interviews, feedback, tickets) into coherent, actionable requirements.',
+                                        possibilities: [
+                                            'Transcribe stakeholder meetings in real-time and identify key themes.',
+                                            'Generate structured requirement documents from short verbal descriptions.',
+                                            'Eliminate manual note-taking errors and ensure stakeholder alignment.'
+                                        ],
+                                        tools: ['Fireflies.ai', 'Otter.ai', 'aqua cloud ALM']
+                                    },
+                                    {
+                                        title: 'Generative Business Modeling',
+                                        details: 'AI accelerates the translation of high-level concepts into formal business and development artifacts like business model canvases and user stories.',
+                                        possibilities: [
+                                            'Generate a lean business model canvas from meeting summaries.',
+                                            'Expand a simple feature description into well-formed user stories with acceptance criteria.',
+                                            'Overcome the "blank page" problem for Product Requirements Documents (PRDs).'
+                                        ],
+                                        tools: ['Miro', 'ClickUp', 'WriteMyPrd']
+                                    },
+                                    {
+                                        title: 'AI-Powered Market Analysis',
+                                        details: 'Machine learning models analyze market data, social media sentiment, and competitive intelligence to validate feature viability and forecast user needs.',
+                                        possibilities: [
+                                            'Forecast demand by analyzing unconventional data sources like TikTok trends.',
+                                            'Get real-time alerts on competitor pricing and feature changes.',
+                                            'Move from intuition-based recommendations to arguments supported by quantitative data.'
+                                        ],
+                                        tools: ['Kompyte', 'Crayon', 'Predictive Analytics Models']
+                                    },
+                                    {
+                                        title: 'Requirement Validation & Gap Analysis',
+                                        details: 'AI systems analyze requirement sets for logical consistency, clarity, and completeness, flagging ambiguities and contradictions.',
+                                        possibilities: [
+                                            'Automatically check requirements against industry standards (e.g., INCOSE guidelines).',
+                                            'Identify contradictions between different user stories.',
+                                            'Predict potential gaps in functionality based on historical project data.'
+                                        ],
+                                        tools: ['IBM Engineering Requirements Management', 'Copilot4DevOps']
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    developer: {
+                        title: 'AI for the Developer',
+                        intro: 'For a Developer, AI is evolving from a simple coding assistant into an autonomous agent capable of handling complex tasks. Discover how AI can accelerate development, improve code quality, and automate tedious processes like debugging, refactoring, and documentation.',
+                        phases: [
+                            {
+                                id: 'design',
+                                name: 'Design & Architecture',
+                                capabilities: [
+                                    {
+                                        title: 'Generative UI/UX & Wireframing',
+                                        details: 'AI tools can interpret sketches or text descriptions and transform them into editable digital wireframes and prototypes, compressing the ideation cycle.',
+                                        possibilities: [
+                                            'Convert a photo of a hand-drawn sketch into a digital wireframe.',
+                                            'Generate UI mockups from a simple text prompt like "a login screen with Google sign-in".',
+                                            'Create entire user flow diagrams and mind maps from a description.'
+                                        ],
+                                        tools: ['Uizard', 'Visily', 'Whimsical AI']
+                                    },
+                                    {
+                                        title: 'Automated System Architecture',
+                                        details: 'By analyzing requirements, AI can recommend optimal system architectures, suggest technology stacks, and generate logical database schemas.',
+                                        possibilities: [
+                                            'Recommend a microservices vs. monolithic architecture based on non-functional requirements.',
+                                            'Propose database schemas optimized for specific tasks like inventory or payments.',
+                                            'Define and refine database schemas using natural language.'
+                                        ],
+                                        tools: ['Flatlogic CRUD App Generator', 'AI-powered IDEs']
+                                    },
+                                    {
+                                        title: 'Design-to-Code Conversion',
+                                        details: 'AI can convert visual design files from tools like Figma directly into clean, production-ready frontend code for frameworks like React or Vue.',
+                                        possibilities: [
+                                            'Generate a high-quality starting point for UI development, minimizing boilerplate.',
+                                            'Reduce errors and misinterpretations during the designer-developer handoff.',
+                                            'Turn a design concept into a working prototype without writing code.'
+                                        ],
+                                        tools: ['Builder.io', 'Anima', 'Figma Make']
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'development',
+                                name: 'Development & Refactoring',
+                                capabilities: [
+                                    {
+                                        title: 'Agentic Code Generation',
+                                        details: 'The frontier of AI development, where an AI agent can be assigned a task (e.g., a GitHub issue) and will autonomously plan, code, test, and submit a pull request.',
+                                        possibilities: [
+                                            'Assign a bug fix or feature request directly to an AI agent.',
+                                            'Generate entire functions, classes, or even scaffold complete applications from a prompt.',
+                                            'Build and deploy full-stack applications from a single natural language description.'
+                                        ],
+                                        tools: ['GitHub Copilot (Agent Mode)', 'Cursor', 'GitHub Spark']
+                                    },
+                                    {
+                                        title: 'Automated Code Refactoring',
+                                        details: 'AI tools analyze source code to identify "code smells" and performance bottlenecks, then automatically apply improvements.',
+                                        possibilities: [
+                                            'Modernize legacy code by converting it to new language standards.',
+                                            'Enforce consistent design patterns across a large project.',
+                                            'Refactor direct API calls into a centralized service class automatically.'
+                                        ],
+                                        tools: ['RefactorMate (GitHub)', 'Refact.ai', 'GitHub Copilot']
+                                    },
+                                    {
+                                        title: 'Intelligent Debugging',
+                                        details: 'Instead of manual step-through debugging, AI analyzes stack traces, logs, and code context to predict the root cause of an error and propose a fix.',
+                                        possibilities: [
+                                            'Get an AI-generated summary of why an error occurred and how to fix it.',
+                                            'Receive contextual code suggestions to remediate identified security vulnerabilities.',
+                                            'Close the loop between error detection and resolution instantly.'
+                                        ],
+                                        tools: ['Sentry (with Seer)', 'GitHub Copilot Autofix']
+                                    },
+                                    {
+                                        title: 'Automated Documentation & Review',
+                                        details: 'AI can parse code to generate comprehensive documentation and act as a tireless, automated code reviewer in your pull request workflow.',
+                                        possibilities: [
+                                            'Generate function-level docstrings and module-level README files automatically.',
+                                            'Create complete API documentation from your source code.',
+                                            'Flag complex issues in code reviews, like use of non-existent library functions or missing unit tests.'
+                                        ],
+                                        tools: ['GitHub Copilot', 'CodeRabbit']
+                                    }
+                                ]
+                            },
+                            {
+                                id: 'deployment',
+                                name: 'Deployment & Operations',
+                                capabilities: [
+                                    {
+                                        title: 'AI-Optimized CI/CD Pipelines',
+                                        details: 'AI can generate and validate complex pipeline configurations, predict deployment issues, and trigger automatic rollbacks to minimize the impact of faulty releases.',
+                                        possibilities: [
+                                            'Generate a CI/CD pipeline YAML file through a conversational interface.',
+                                            'Predict the risk of a deployment based on the code changes.',
+                                            'Automatically roll back a failed deployment to the last known stable version.'
+                                        ],
+                                        tools: ['Harness AI']
+                                    },
+                                    {
+                                        title: 'Predictive Performance Monitoring',
+                                        details: 'AI learns the "normal" behavior of your application and can detect subtle anomalies (like a slow memory leak) before they impact users.',
+                                        possibilities: [
+                                            'Get alerted to a potential issue before it crosses a static threshold.',
+                                            'Trace unexpected cost spikes in the cloud back to a specific feature or team.',
+                                            'Receive root cause analysis for performance issues, often with a suggested code fix.'
+                                        ],
+                                        tools: ['Sentry', 'Datadog', 'CloudZero']
+                                    },
+                                    {
+                                        title: 'Automated Infrastructure Management',
+                                        details: 'AI analyzes Infrastructure as Code (IaC) to suggest optimizations, scan for security vulnerabilities, and automatically correct configuration drift.',
+                                        possibilities: [
+                                            'Optimize Terraform files for better performance or lower cost.',
+                                            'Proactively allocate cloud resources based on predicted future needs.',
+                                            'Eliminate "it works on my machine" problems by preventing configuration drift.'
+                                        ],
+                                        tools: ['Terraform AI Plugins', 'AIOps Platforms']
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    qa: {
+                        title: 'AI for Quality Assurance',
+                        intro: 'For a Quality Assurance professional, AI is the catalyst for shifting quality "left", making it a proactive and continuous part of development. Explore how AI automates test generation, creates realistic test data, and provides intelligent analysis of failures, elevating your role to a strategic quality engineer.',
+                        phases: [
+                            {
+                                id: 'testing',
+                                name: 'Testing & Assurance',
+                                capabilities: [
+                                    {
+                                        title: 'AI-Driven Test Case Generation',
+                                        details: 'AI can generate comprehensive test suites (unit, integration, E2E) directly from requirements, user stories, or source code.',
+                                        possibilities: [
+                                            'Generate unit tests for a function using a specific framework like Jest.',
+                                            'Create consistent and comprehensive API tests from a predefined template.',
+                                            'Automatically generate test cases when a Jira story moves to "Ready for Test".'
+                                        ],
+                                        tools: ['GitHub Copilot', 'Mabl', 'TestGenR-ai (Jira App)']
+                                    },
+                                    {
+                                        title: 'Synthetic Data Generation',
+                                        details: 'AI generates large volumes of realistic, privacy-safe synthetic data for robust performance, load, and security testing without using sensitive production data.',
+                                        possibilities: [
+                                            'Create high-fidelity synthetic data that mimics the statistical properties of real data.',
+                                            'Generate custom datasets for training and testing NLP and LLM applications.',
+                                            'Test edge cases and high-load scenarios without compromising user privacy.'
+                                        ],
+                                        tools: ['MOSTLY AI', 'Argilla', 'Meta Synthetic Data Kit']
+                                    },
+                                    {
+                                        title: 'AI-Powered Visual & Accessibility Testing',
+                                        details: 'AI identifies visual regressions (UI bugs) that functional tests miss and proactively flags accessibility issues like poor color contrast or missing alt text.',
+                                        possibilities: [
+                                            'Distinguish between meaningful visual bugs and insignificant pixel shifts.',
+                                            'Validate that personalized and localized content is rendered correctly.',
+                                            'Catch accessibility issues early in the development cycle.'
+                                        ],
+                                        tools: ['Applitools Visual AI', 'Mabl']
+                                    },
+                                    {
+                                        title: 'Intelligent Test Execution & Maintenance',
+                                        details: 'AI optimizes test runs by selecting only the tests relevant to a code change and automatically "self-heals" broken tests when the UI is modified.',
+                                        possibilities: [
+                                            'Dramatically speed up the developer feedback loop by running fewer, more targeted tests.',
+                                            'Eliminate the tedious manual work of updating test scripts when element IDs change.',
+                                            'Prioritize testing efforts on the highest-risk areas of the application.'
+                                        ],
+                                        tools: ['Mabl', 'Testim', 'Functionize', 'aqua cloud']
+                                    },
+                                    {
+                                        title: 'AI-Driven Root Cause Analysis',
+                                        details: 'When a test fails, AI analyzes logs, console errors, and even video replays to pinpoint the likely root cause and diagnose the problem.',
+                                        possibilities: [
+                                            'Receive an AI-generated summary of why a test failed.',
+                                            'Analyze user session replays to identify moments of user frustration.',
+                                            'Convert critical UX issues directly into bug reports or new user stories.'
+                                        ],
+                                        tools: ['Mabl', 'LogRocket (with Galileo)']
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                advancedCapabilities: [
+                    {
+                        title: 'AI to Create Dynamic Forms',
+                        details: 'AI is transforming static web forms into dynamic, adaptive, and conversational experiences that are more intuitive for users and faster to build for developers.',
+                        possibilities: [
+                            '<strong>Prompt-Based Generation:</strong> Generate complete form components, including UI, state, and validation, from a simple natural language prompt.',
+                            '<strong>Role-Based Forms:</strong> Automatically render different form fields and actions based on the user\'s role or permissions, enhancing security and simplifying the UI.',
+                            '<strong>Generative UI:</strong> Create truly conversational forms where the AI decides which questions to ask and which UI elements to render on-the-fly based on the user\'s answers.'
+                        ],
+                        tools: ['AI Form Builder (GitHub)', 'Mantine AI Form Generator', 'Vercel AI SDK']
+                    },
+                    {
+                        title: 'AI to Perform CRUD Operations',
+                        details: 'AI is abstracting the foundational Create, Read, Update, and Delete operations, allowing for more natural, intelligent, and automated data management.',
+                        possibilities: [
+                            '<strong>Natural Language to API/SQL:</strong> Empower non-technical users to query data by translating plain English commands into complex SQL queries or API calls.',
+                            '<strong>Agentic CRUD:</strong> A single high-level command ("Process a return for this customer") can trigger a complex, multi-step workflow of reads, writes, and updates across multiple systems.',
+                            '<strong>AI-Generated CRUD Apps:</strong> Generate a complete, full-stack CRUD application—including database, backend API, and frontend UI—from a high-level description of the data model.'
+                        ],
+                        tools: ['TEXT2SQL.AI', 'Model Context Protocol (MCP)', 'Flatlogic CRUD App Generator']
+                    },
+                    {
+                        title: 'AI for Notifications & Emails',
+                        details: 'AI transforms notifications from generic broadcasts into precise, hyper-personalized, one-to-one conversations that drive engagement and retention.',
+                        possibilities: [
+                            '<strong>Predictive Alerting:</strong> Trigger alerts based on anomalies and deviations from normal behavior, catching issues before they impact users.',
+                            '<strong>Hyper-Personalized Content:</strong> Dynamically generate unique email or notification content for each user based on their specific behavior, preferences, and context.',
+                            '<strong>Send Time Optimization (STO):</strong> Deliver a message to each individual user at the precise moment they are most likely to open it, maximizing engagement.'
+                        ],
+                        tools: ['Anomaly Detection Models (GitHub)', 'Google Cloud (Chocolate AI)', 'Airship', 'Adobe Journey Optimizer']
+                    },
+                    {
+                        title: 'AI for Intelligent Search',
+                        details: 'AI revolutionizes in-application search by moving beyond keywords to understand semantic meaning, context, and user intent, making information infinitely more accessible.',
+                        possibilities: [
+                            '<strong>Semantic & Vector Search:</strong> Allow users to search for concepts, not just keywords (e.g., searching "unhappy with bill" finds documents about "invoicing disputes").',
+                            '<strong>Multimodal Search:</strong> Search across different data types simultaneously. Upload an image of a jacket and refine the search with the text "in leather".',
+                            '<strong>Conversational Search (RAG):</strong> Move from a list of results to a direct, synthesized answer. The AI retrieves relevant information from multiple sources and generates a coherent, step-by-step response.'
+                        ],
+                        tools: ['Qdrant', 'Weaviate', 'Pinecone', 'Swirl AI Search']
+                    }
+                ],
+                security: {
+                    capabilities: [
+                        {
+                            title: 'Proactive Vulnerability Detection (AI-SAST)',
+                            details: 'AI-powered Static Application Security Testing trains on vast datasets of code to detect novel and complex vulnerability patterns that rule-based scanners miss, often suggesting a fix directly in the IDE.',
+                            tools: ['CodeSonar', 'SonarQube']
+                        },
+                        {
+                            title: 'Runtime Application Self-Protection (RASP)',
+                            details: 'AI-driven RASP agents are embedded in the application, learning its normal behavior and blocking malicious activity like SQL injection in real-time without human intervention.',
+                            tools: ['RASP Solution Providers']
+                        },
+                        {
+                            title: 'AI Red Teaming & Risk Identification',
+                            details: 'A new discipline focused on proactively finding and mitigating unique AI risks like prompt injection, data leakage, and the generation of harmful content.',
+                            tools: ["Azure's PyRIT", "Protect AI's ModelScan"]
+                        }
+                    ],
+                    chartData: {
+                        labels: ['Model Inversion', 'Model Extraction', 'Prompt Injection', 'Data Poisoning'],
+                        data: [0.9, 0.8, 0.7, 0.6],
+                        title: 'OWASP AIVSS Example Severity Scores'
+                    }
+                }
+            };
+
+            const mainNav = document.getElementById('main-nav');
+            const views = document.querySelectorAll('.view');
+            const roleCards = document.querySelectorAll('.role-card');
+            const backButton = document.getElementById('back-to-home');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContent = document.getElementById('modal-content');
+            const modalClose = document.getElementById('modal-close');
+            let securityChartInstance = null;
+            
+            function switchView(viewId) {
+                views.forEach(view => {
+                    view.classList.toggle('active', view.id === `${viewId}-view`);
+                });
+                document.querySelectorAll('#main-nav .nav-link').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${viewId}`);
+                });
+                window.scrollTo(0, 0);
+            }
+
+            function renderRoleView(role) {
+                const roleData = appData.roles[role];
+                if (!roleData) return;
+
+                document.getElementById('role-title').textContent = roleData.title;
+                document.getElementById('role-intro').innerHTML = roleData.intro;
+
+                const phaseTabsContainer = document.getElementById('phase-tabs');
+                phaseTabsContainer.innerHTML = roleData.phases.map((phase, index) => `
+                    <button class="phase-tab text-sm sm:text-base font-medium py-2 px-4 rounded-t-lg ${index === 0 ? 'active' : 'bg-slate-100 hover:bg-slate-200'}" data-role="${role}" data-phase-id="${phase.id}">
+                        ${phase.name}
+                    </button>
+                `).join('');
+                
+                phaseTabsContainer.querySelectorAll('.phase-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        phaseTabsContainer.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active', 'bg-slate-100', 'hover:bg-slate-200'));
+                        phaseTabsContainer.querySelectorAll('.phase-tab').forEach(t => t.classList.add('bg-slate-100', 'hover:bg-slate-200'));
+                        tab.classList.add('active');
+                        tab.classList.remove('bg-slate-100', 'hover:bg-slate-200');
+                        renderCapabilityGrid(tab.dataset.role, tab.dataset.phaseId);
+                    });
+                });
+
+                renderCapabilityGrid(role, roleData.phases[0].id);
+                switchView('role');
+            }
+
+            function renderCapabilityGrid(role, phaseId) {
+                const phaseData = appData.roles[role].phases.find(p => p.id === phaseId);
+                const grid = document.getElementById('capability-grid');
+                if (!phaseData) {
+                    grid.innerHTML = '<p>No capabilities found for this phase.</p>';
+                    return;
+                }
+                grid.innerHTML = phaseData.capabilities.map(cap => `
+                    <div class="capability-card bg-white rounded-xl shadow-sm p-6 cursor-pointer" data-capability="${JSON.stringify(cap).replace(/"/g, '&quot;')}">
+                        <h4 class="font-bold text-lg text-teal-700">${cap.title}</h4>
+                        <p class="text-slate-500 mt-2 text-sm">${cap.details}</p>
+                    </div>
+                `).join('');
+
+                grid.querySelectorAll('.capability-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const capabilityData = JSON.parse(card.dataset.capability);
+                        showModal(capabilityData);
+                    });
+                });
+            }
+            
+            function renderAdvancedCapabilities() {
+                const grid = document.getElementById('advanced-capability-grid');
+                grid.innerHTML = appData.advancedCapabilities.map(cap => `
+                     <div class="capability-card bg-white rounded-xl shadow-sm p-8 cursor-pointer flex flex-col" data-capability="${JSON.stringify(cap).replace(/"/g, '&quot;')}">
+                        <h4 class="font-bold text-xl text-teal-700">${cap.title}</h4>
+                        <p class="text-slate-500 mt-3 text-base flex-grow">${cap.details}</p>
+                        <button class="mt-4 text-teal-600 font-semibold self-start">Learn more &rarr;</button>
+                    </div>
+                `).join('');
+                 grid.querySelectorAll('.capability-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const capabilityData = JSON.parse(card.dataset.capability);
+                        showModal(capabilityData);
+                    });
+                });
+            }
+
+            function renderSecurityView() {
+                const grid = document.getElementById('security-capability-grid');
+                grid.innerHTML = appData.security.capabilities.map(cap => `
+                     <div class="capability-card bg-white rounded-xl shadow-sm p-6 cursor-pointer" data-capability="${JSON.stringify(cap).replace(/"/g, '&quot;')}">
+                        <h4 class="font-bold text-lg text-teal-700">${cap.title}</h4>
+                        <p class="text-slate-500 mt-2 text-sm">${cap.details}</p>
+                    </div>
+                `).join('');
+                grid.querySelectorAll('.capability-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const capabilityData = JSON.parse(card.dataset.capability);
+                        showModal(capabilityData);
+                    });
+                });
+
+                renderSecurityChart();
+            }
+
+            function renderSecurityChart() {
+                const ctx = document.getElementById('securityChart').getContext('2d');
+                if (securityChartInstance) {
+                    securityChartInstance.destroy();
+                }
+                const chartData = appData.security.chartData;
+                securityChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Severity Score',
+                            data: chartData.data,
+                            backgroundColor: [
+                                'rgba(20, 83, 45, 0.6)',
+                                'rgba(220, 38, 38, 0.6)',
+                                'rgba(234, 88, 12, 0.6)',
+                                'rgba(217, 119, 6, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(20, 83, 45, 1)',
+                                'rgba(220, 38, 38, 1)',
+                                'rgba(234, 88, 12, 1)',
+                                'rgba(217, 119, 6, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: false,
+                                text: chartData.title
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.x !== null) {
+                                            label += context.parsed.x.toFixed(1);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                max: 1.0,
+                                title: {
+                                    display: true,
+                                    text: 'AIVSS Score'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    autoSkip: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function showModal(data) {
+                document.getElementById('modal-title').textContent = data.title;
+                const body = document.getElementById('modal-body');
+                
+                let possibilitiesHtml = '';
+                if (data.possibilities && data.possibilities.length > 0) {
+                    possibilitiesHtml = `
+                        <h4 class="font-semibold text-slate-700 mt-6 mb-2">What you can do:</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            ${data.possibilities.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+
+                let toolsHtml = '';
+                if (data.tools && data.tools.length > 0) {
+                    toolsHtml = `
+                        <h4 class="font-semibold text-slate-700 mt-6 mb-2">Example Tools:</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${data.tools.map(t => `<span class="bg-teal-100 text-teal-800 text-sm font-medium px-3 py-1 rounded-full">${t}</span>`).join('')}
+                        </div>
+                    `;
+                }
+
+                body.innerHTML = `
+                    <p class="text-base">${data.details}</p>
+                    ${possibilitiesHtml}
+                    ${toolsHtml}
+                `;
+                
+                modalOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            }
+
+            function hideModal() {
+                modalOverlay.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.add('scale-95');
+            }
+            
+            mainNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.closest('a');
+                if (target) {
+                    const viewId = target.getAttribute('href').substring(1);
+                    switchView(viewId);
+                }
+            });
+
+            roleCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    renderRoleView(card.dataset.role);
+                });
+            });
+
+            backButton.addEventListener('click', () => switchView('home'));
+            modalClose.addEventListener('click', hideModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    hideModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modalOverlay.classList.contains('pointer-events-none')) {
+                    hideModal();
+                }
+            });
+
+            renderAdvancedCapabilities();
+            renderSecurityView();
+        });
+    </script>
+</body>
+</html>

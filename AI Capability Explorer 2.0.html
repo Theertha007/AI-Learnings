@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Capability Explorer – Title & Real-Estate Web Apps</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;padding:0;background:#f6f8fa;color:#24292e}
+    header{background:#0d1117;color:#fff;padding:20px 28px}
+    header h1{margin:0;font-size:24px}
+    header p{margin:6px 0 0;color:#c9d1d9;font-size:14px}
+    #searchBox{width:100%;max-width:400px;margin:16px 28px;padding:8px 12px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#f0f6fc}
+    #filterBtns{display:flex;flex-wrap:wrap;gap:8px;padding:0 28px 20px}
+    .filterBtn{background:#21262d;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px;transition:.2s}
+    .filterBtn.active{background:#1f6feb;color:#fff}
+    #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;padding:0 28px 40px}
+    .card{background:#fff;border:1px solid #d0d7de;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+    .cardHeader{padding:12px 16px;font-weight:600;font-size:16px;background:#f3f4f6;color:#0d1117;border-bottom:1px solid #d0d7de}
+    .card main{flex:1;padding:12px 16px;font-size:14px;line-height:1.45}
+    .card footer{padding:10px 16px;background:#f9fafb;font-size:12px;color:#656d76;display:flex;justify-content:space-between;align-items:center}
+    .tag{display:inline-block;background:#ddf4ff;color:#0969da;padding:2px 6px;border-radius:4px;font-size:11px;margin-right:4px;margin-bottom:2px}
+    .hidden{display:none}
+    .demoBtn{background:#238636;color:#fff;border:none;border-radius:4px;padding:4px 8px;font-size:12px;cursor:pointer;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+    <h1>AI Capability Explorer – 51 Possibilities</h1>
+    <p>Interactive catalog of AI possibilities for Title Insurance & Real-Estate web apps</p>
+    <input id="searchBox" placeholder="Type to filter…" onkeyup="filterAll()">
+    <div id="filterBtns">
+        <button class="filterBtn active" data-filter="all">All</button>
+        <button class="filterBtn" data-filter="dev">Dev</button>
+        <button class="filterBtn" data-filter="qa">QA</button>
+        <button class="filterBtn" data-filter="bsa">BSA</button>
+        <button class="filterBtn" data-filter="user">End-User</button>
+    </div>
+</header>
+
+<div id="grid"></div>
+
+<script>
+const data = [
+{name:"AI Code-Story Generator",desc:"Generates full user-stories & acceptance criteria from a single sentence.",uses:"BSA / PM early scoping",tags:["bsa","low-code"],example:"GitHub Copilot Labs → Stories",demo:"https://githubnext.com/projects/copilot-labs",time:"1 day"},
+{name:"Sketch-to-Wireframe AI",desc:"Turns hand-drawn sketches into editable Figma or HTML wireframes.",uses:"UX / Dev sprint-0",tags:["dev","low-code"],example:"Uizard Wireframe Scanner",demo:"https://uizard.io",time:"1 day"},
+{name:"Auto API Scaffold",desc:"Creates CRUD endpoints + OpenAPI spec from plain-English entity description.",uses:"Backend dev day-1",tags:["dev"],example:"Openkoda Dynamic Entities + GPT-4 plugin",demo:"https://github.com/openkoda/openkoda",time:"2 days"},
+{name:"Self-Healing UI Tests",desc:"E2E Cypress/Playwright scripts auto-repair when UI changes.",uses:"QA nightly suite",tags:["qa"],example:"Testim Self-Healing",demo:"https://testim.io",time:"3 days"},
+{name:"Visual Regression Cloud",desc:"AI pixel-diff across thousands of browsers & screen sizes.",uses:"QA pre-prod",tags:["qa"],example:"Applitools Eyes",demo:"https://applitools.com",time:"1 day"},
+{name:"Predictive Bug Hot-Spot",desc:"ML ranks files most likely to introduce defects next commit.",uses:"Dev / QA planning",tags:["dev","qa"],example:"Panaya ForeSight",demo:"https://panaya.com",time:"1 week"},
+{name:"AI Commit-to-Deploy",desc:"Releases only if AI predicts < 1 % production failure probability.",uses:"DevOps on-call",tags:["dev"],example:"Harness CD + AWS Bedrock predictor",demo:"https://harness.io",time:"2 weeks"},
+{name:"Dynamic Form Builder",desc:"Generates smart branching forms with validation from plain English.",uses:"Product / BSA",tags:["bsa","user","low-code"],example:"Microsoft Power Apps Copilot",demo:"https://powerapps.microsoft.com",time:"1 day"},
+{name:"NLP CRUD Agent",desc:"User types 'Add escrow record for 123 Main St' → DB insert executed.",uses:"End-user chat UI",tags:["user"],example:"LangChain SQL-Agent template + MCP",demo:"https://github.com/langchain-ai/langchain/tree/master/templates/sql-agent",time:"4 days"},
+{name:"Context-Aware Search",desc:"Natural-language search inside 10 k PDFs or DB rows.",uses:"Title examiner",tags:["user"],example:"Vectara RAG-as-a-Service",demo:"https://vectara.com",time:"2 days"},
+{name:"AI Closing-Disclosure Reconciler",desc:"Compares lender CD vs system data; highlights discrepancies.",uses:"Title processor",tags:["user","low-code"],example:"SoftPro CD Intelligence",demo:"https://github.com/softprodev/cd-intelligence-poc",time:"1 week"},
+{name:"AI Fraud Score Engine",desc:"Real-time risk score on every wire instruction using anomaly detection.",uses:"Compliance officer",tags:["user","qa"],example:"HHSSTitle anomaly model",demo:"https://github.com/hhss-ai/fraud-detection-model",time:"3 weeks"},
+{name:"Predictive Property AVM",desc:"Instant valuation using 200+ MLS & public record features.",uses:"Listing portal",tags:["user"],example:"AWS Marketplace Zillow-like AVM container",demo:"https://aws.amazon.com/marketplace/pp/prodview-avm",time:"2 weeks"},
+{name:"Smart Email Composer",desc:"Auto-drafts personalized closing-update emails with brand tone.",uses:"Escrow officer",tags:["user","bsa"],example:"AgentMail MCP Server + GPT-4o",demo:"https://github.com/modelcontextprotocol/servers/tree/main/src/agentmail",time:"1 day"},
+{name:"Optimal-Time Push",desc:"Sends doc-sign notification when user is 90 % likely to open it.",uses:"Marketing / Ops",tags:["user"],example:"OneSignal Journeys AI",demo:"https://onesignal.com/journeys",time:"3 days"},
+{name:"Auto-Doc Generator",desc:"Keeps API docs & ADRs in sync on every push.",uses:"Dev / Tech writer",tags:["dev","qa"],example:"Mintlify AI Doc-writer GitHub Action",demo:"https://github.com/mintlify/ai-doc-writer-action",time:"1 day"},
+{name:"AI Threat-Model Buddy",desc:"Creates STRIDE diagrams from architecture JSON.",uses:"Security champion",tags:["dev","qa"],example:"Microsoft Security Copilot plugin",demo:"https://learn.microsoft.com/security-copilot",time:"1 week"},
+{name:"Log Anomaly Radar",desc:"Detects root-cause trace from 1 M micro-service logs.",uses:"SRE on-call",tags:["dev","qa"],example:"Datadog Watchdog AI",demo:"https://docs.datadoghq.com/watchdog",time:"1 day"},
+{name:"AI Sprint Planner",desc:"Allocates story points & capacity using past velocity & risk.",uses:"Scrum master",tags:["bsa"],example:"ClickUp AI Sprint Planner",demo:"https://clickup.com/ai",time:"2 days"},
+{name:"AI Maintenance Oracle",desc:"Predicts next 30-day incidents & auto-creates GitHub Issues with fix hints.",uses:"Support manager",tags:["dev","qa"],example:"NewRelic AI Ops",demo:"https://newrelic.com/platform/aiops",time:"1 week"},
+{name:"Voice-to-Form AI",desc:"User speaks; AI fills complex multi-step form in real time.",uses:"Mobile field agents",tags:["user","low-code"],example:"Azure Speech Studio + PowerApps",demo:"https://azure.microsoft.com/products/cognitive-services/speech-services",time:"1 week"},
+{name:"AI Document Redaction Bot",desc:"Auto-redacts PII from closing packages for public records.",uses:"Compliance / Ops",tags:["user","dev"],example:"AWS Comprehend PII API",demo:"https://docs.aws.amazon.com/comprehend/latest/dg/how-pii.html",time:"2 days"},
+{name:"Smart Notary Scheduler",desc:"Finds notary slot that satisfies buyer, seller, lender via NLP email parsing.",uses:"Closing coordinator",tags:["user","bsa"],example:"Calendly Routing Forms + GPT function-calling",demo:"https://github.com/calendly/gpt-scheduler-poc",time:"1 week"},
+{name:"Geo-Fence Alerting AI",desc:"Sends push when client enters county recording office.",uses:"Mobile app users",tags:["user","low-code"],example:"Radar.io Geofencing + OneSignal",demo:"https://radar.io/geofencing",time:"3 days"},
+{name:"AI Underwriting Co-Pilot",desc:"Suggests exceptions & policy endorsements while underwriter reviews file.",uses:"Underwriter",tags:["user"],example:"Chisel AI Underwriting Workbench",demo:"https://chisel.ai",time:"4 weeks"},
+/* --- 26 NEW CAPABILITIES FROM LATEST RESEARCH --- */
+{name:"AI Data-Contract Validator",desc:"Compares API JSON schema vs actual payloads; flags drift.",uses:"Backend / QA",tags:["dev","qa"],example:"Optic Diff Github Action",demo:"https://github.com/opticdev/optic",time:"2 days"},
+{name:"AI Mock-Server Seeder",desc:"Generates realistic test data & mocks from OpenAPI spec.",uses:"QA / Dev",tags:["dev","qa","low-code"],example:"Mockoon AI seeding",demo:"https://mockoon.com",time:"1 day"},
+{name:"AI Release Note Writer",desc:"Auto-writes human-friendly release notes from Git commits.",uses:"Dev / PM",tags:["dev","bsa"],example:"Release Please Bot + GPT",demo:"https://github.com/googleapis/release-please",time:"1 day"},
+{name:"AI SQL Optimizer",desc:"Indexes & rewrites slow queries based on EXPLAIN plans.",uses:"DBA / Dev",tags:["dev"],example:"EverSQL AI tuner",demo:"https://www.eversql.com",time:"3 days"},
+{name:"AI Secrets Scanner",desc:"Commits blocked if API keys / tokens detected.",uses:"DevSecOps",tags:["dev","qa"],example:"GitGuardian Shield",demo:"https://github.com/GitGuardian/ggshield",time:"1 day"},
+{name:"AI Accessibility Auditor",desc:"Real-time WCAG checks on every PR preview.",uses:"QA / UX",tags:["qa","dev"],example:"axe-core AI ruleset",demo:"https://github.com/dequelabs/axe-core",time:"2 days"},
+{name:"AI Contract Test Generator",desc:"Auto-creates Pact tests from consumer usage analytics.",uses:"Backend / QA",tags:["dev","qa"],example:"Pactflow AI generator",demo:"https://docs.pactflow.io",time:"1 week"},
+{name:"AI Test Data Masker",desc:"Anonymizes prod dumps for safe dev/QA use.",uses:"QA / DBA",tags:["qa","dev"],example:"Tonic.ai Structural",demo:"https://tonic.ai",time:"2 days"},
+{name:"AI Dependency Updater",desc:"Creates green PRs with security-patched libraries.",uses:"DevSecOps",tags:["dev"],example:"Dependabot + Copilot PR body",demo:"https://github.com/dependabot",time:"1 day"},
+{name:"AI Load Forecast",desc:"Predicts Black-Friday traffic to pre-warm infra.",uses:"SRE / Dev",tags:["dev","qa"],example:"AWS Forecast + Lambda scaler",demo:"https://aws.amazon.com/forecast",time:"3 days"},
+{name:"AI UX Replay Summarizer",desc:"Auto-highlights most rage-click sessions from FullStory.",uses:"UX / QA",tags:["qa","user"],example:"FullStory Conversions AI",demo:"https://www.fullstory.com",time:"2 days"},
+{name:"AI Pricing Optimizer",desc:"Dynamic escrow fee quoting using real-time market data.",uses:"Product / BSA",tags:["user","bsa"],example:"Stripe Radar + custom ML",demo:"https://stripe.com/docs/radar",time:"2 weeks"},
+{name:"AI Policy Extraction Bot",desc:"Pulls latest county recording rules into CMS nightly.",uses:"Compliance / BSA",tags:["bsa","low-code"],example:"Diffbot + LangChain",demo:"https://github.com/diffbot/diffbot-python-client",time:"1 week"},
+{name:"AI Document Translation",desc:"Instantly translates deeds into 40+ languages for buyers.",uses:"Customer success",tags:["user","low-code"],example:"Azure Translator v3 Custom",demo:"https://docs.microsoft.com/azure/cognitive-services/translator",time:"2 days"},
+{name:"AI Identity Verifier",desc:"Selfie vs driver-license match for remote notarization.",uses:"Security / Onboarding",tags:["user","qa"],example:"Onfido SDK",demo:"https://github.com/onfido/onfido-sdk-ui",time:"3 days"},
+{name:"AI Voice Bot for Status",desc:"Inbound phone bot that speaks closing status in natural language.",uses:"Customer service",tags:["user","low-code"],example:"Twilio Voice + GPT",demo:"https://github.com/twilio-labs/twilio-ai-assistant",time:"1 week"},
+{name:"AI Wire Instruction Parser",desc:"Extracts routing & acct # from emailed PDF instructions.",uses:"Escrow officer",tags:["user","low-code"],example:"AWS Textract + GPT function",demo:"https://docs.aws.amazon.com/textract",time:"3 days"},
+{name:"AI Signature Placement",desc:"Auto-stamps signature blocks exactly where needed.",uses:"Mobile app users",tags:["user","dev"],example:"DocuSign AI Auto-Place",demo:"https://developers.docusign.com",time:"2 days"},
+{name:"AI Compliance Reporter",desc:"Auto-builds HMDA & CFPB reports from loan data.",uses:"Compliance officer",tags:["bsa","dev"],example:"HMDA Pilot ML Reporter",demo:"https://ffiec.cfpb.gov/documentation",time:"3 weeks"},
+{name:"AI Lien Release Monitor",desc:"Watches county sites for recorded releases; auto-updates file.",uses:"Post-closing team",tags:["user","low-code"],example:"Playwright + GPT scraper",demo:"https://github.com/microsoft/playwright-mcp",time:"1 week"},
+{name:"AI Market Sentiment Feed",desc:"Aggregates news & tweets to flag price-impacting events.",uses:"Valuation team",tags:["user","bsa"],example:"FinBERT sentiment API",demo:"https://github.com/ProsusAI/finBERT",time:"4 days"},
+{name:"AI Mortgage Rate Predictor",desc:"Forecasts optimal lock timing for buyers.",uses:"Loan officer portal",tags:["user"],example:"Kaggle 30-year-rate dataset + Prophet",demo:"https://github.com/facebook/prophet",time:"2 weeks"},
+{name:"AI Drone Roof Inspector",desc:"Upload drone pics → AI generates roof condition report.",uses:"Property inspector",tags:["user","low-code"],example:"Roboflow Roof-Condition model",demo:"https://universe.roboflow.com/roof-condition",time:"1 week"},
+{name:"AI Chat-to-SQL Dashboard",desc:"Ask 'Show me Q3 revenue by county' → auto-chart.",uses:"Exec / BSA",tags:["bsa","low-code"],example:"Evidence.dev GPT-sql",demo:"https://github.com/evidence-dev/gpt-sql",time:"3 days"},
+{name:"AI Parking Permit OCR",desc:"Instantly validates HOA parking stickers from mobile cam.",uses:"Field agent app",tags:["user","dev"],example:"Tesseract + GPT corrections",demo:"https://github.com/tesseract-ocr/tesseract",time:"4 days"},
+{name:"AI HOA Doc Summarizer",desc:"Condenses 50-page CC&Rs into 5 bullet points.",uses:"Buyer / Agent",tags:["user","bsa"],example:"Claude-3 long-context API",demo:"https://docs.anthropic.com/claude/reference",time:"2 days"},
+{name:"AI Chatbot Handoff",desc:"Detects when to escalate to human with context summary.",uses:"Customer success",tags:["user","low-code"],example:"Zendesk AI + GPT summarizer",demo:"https://github.com/zendesk/sunshine-conversations-gpt",time:"1 week"}
+];
+
+function render(list){
+  const grid = document.getElementById('grid');
+  grid.innerHTML='';
+  list.forEach(item=>{
+     const card = document.createElement('div');
+     card.className='card';
+     card.dataset.tags = item.tags.join(' ');
+     card.innerHTML = `
+       <header class="cardHeader">${item.name}</header>
+       <main>${item.desc}<br><br><strong>Uses:</strong> ${item.uses}</main>
+       <footer>
+         <span>${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</span>
+         <span>
+           <a class="demoBtn" href="${item.demo}" target="_blank" rel="noopener">Try / Repo</a>
+           &nbsp;${item.time}
+         </span>
+       </footer>
+     `;
+     grid.appendChild(card);
+  });
+}
+
+function filterAll(){
+  const term = document.getElementById('searchBox').value.toLowerCase();
+  const activeBtn = document.querySelector('.filterBtn.active').dataset.filter;
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(c=>{
+     const matchText = c.textContent.toLowerCase().includes(term);
+     const matchFilter = activeBtn==='all' || c.dataset.tags.includes(activeBtn);
+     c.classList.toggle('hidden', !(matchText && matchFilter));
+  });
+}
+
+document.querySelectorAll('.filterBtn').forEach(btn=>{
+   btn.addEventListener('click',e=>{
+     document.querySelectorAll('.filterBtn').forEach(b=>b.classList.remove('active'));
+     e.target.classList.add('active');
+     filterAll();
+   });
+});
+
+render(data);
+</script>
+</body>
+</html>
+```
