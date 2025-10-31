@@ -1,0 +1,277 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Azure AI Foundry – Zero-to-Prod Curriculum</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            margin: 0;
+            background: #f5f7fa;
+            color: #222;
+        }
+        header {
+            background: #0078d4;
+            color: #fff;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        header p {
+            margin: .5rem 0 0;
+            opacity: .9;
+        }
+        main {
+            max-width: 900px;
+            margin: auto;
+            padding: 2rem 1rem;
+        }
+        section {
+            margin-bottom: 2.5rem;
+        }
+        h2 {
+            border-bottom: 2px solid #0078d4;
+            padding-bottom: .25rem;
+            margin-bottom: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+        th, td {
+            padding: .75rem .5rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #eef2f6;
+        }
+        a {
+            color: #0078d4;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .badge {
+            display: inline-block;
+            background: #0078d4;
+            color: #fff;
+            font-size: .7rem;
+            padding: .15rem .35rem;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+        ol {
+            line-height: 1.8;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: .8rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Azure AI Foundry – Zero-to-Prod Curriculum</h1>
+    <p>Beginner → Advanced | Microsoft-hosted labs only | Shareable links</p>
+</header>
+
+<main>
+
+<section>
+    <h2>0. 5-Min Orientation (watch first)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>What</th>
+                <th>Link</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Introduction to Azure AI Foundry – UI tour, model catalog, playground, safety filters</td>
+                <td><a href="https://www.linkedin.com/learning/microsoft-azure-ai-essentials-workloads-and-machine-learning-on-azure/introduction-to-azure-ai-studio" target="_blank" rel="noopener">LinkedIn Learning</a></td>
+                <td>4 min</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>1. Create Your First Project & Deploy a Model (No-Code → Code)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lab</th>
+                <th>What you’ll do</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Portal quickstart</td>
+                <td>1-click deploy <strong>gpt-4o</strong>, open <strong>Chat playground</strong>, test prompts</td>
+                <td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/quickstarts/get-started-code" target="_blank" rel="noopener">Microsoft Learn</a></td>
+            </tr>
+            <tr>
+                <td>SDK quickstart (Python | C# | JS)</td>
+                <td>Same flow in code—generate endpoint, key, tracing config</td>
+                <td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/quickstarts/get-started-code" target="_blank" rel="noopener">Microsoft Learn</a></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>2. Build a Single Agent with Tools (30-Min Code-First)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lab</th>
+                <th>What you’ll do</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lab 2 – “Build your code-first agent”</td>
+                <td>Sales agent that queries SQL, plots charts, answers KPI questions</td>
+                <td><a href="https://github.com/azure-ai-foundry/ai-tutorials#lab-2---build-your-code-first-agent-with-azure-ai-foundry" target="_blank" rel="noopener">GitHub repo + notebook</a></td>
+            </tr>
+            <tr>
+                <td>Azure AI Foundry Agent Service docs</td>
+                <td>Understand managed orchestration, thread memory, authZ</td>
+                <td><a href="https://learn.microsoft.com/en-us/azure/ai-foundry/how-to/agent-service" target="_blank" rel="noopener">Microsoft Learn</a></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>3. 12-Lesson Beginner → Advanced Course (Microsoft Official)</h2>
+    <p>Clone once, work offline, get badges.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Lesson</th>
+                <th>Topic</th>
+                <th>Notebook</th>
+                <th>Video</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>01</td><td>Intro to agents & use-cases</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/01-intro-to-ai-agents" target="_blank" rel="noopener">nb</a></td><td>8 min</td></tr>
+            <tr><td>02</td><td>Agentic frameworks comparison</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/02-explore-agentic-frameworks" target="_blank" rel="noopener">nb</a></td><td>9 min</td></tr>
+            <tr><td>03</td><td>Design patterns (ReAct, plan-solve)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/03-design-patterns" target="_blank" rel="noopener">nb</a></td><td>10 min</td></tr>
+            <tr><td>04</td><td>Tool-use pattern (call your APIs)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/04-tool-use" target="_blank" rel="noopener">nb</a></td><td>12 min</td></tr>
+            <tr><td>05</td><td>Agentic RAG (own data)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/05-agentic-rag" target="_blank" rel="noopener">nb</a></td><td>11 min</td></tr>
+            <tr><td>06</td><td>Trust & safety (filters, grounding)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/06-trustworthy-agents" target="_blank" rel="noopener">nb</a></td><td>10 min</td></tr>
+            <tr><td>07</td><td>Planning pattern</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/07-planning" target="_blank" rel="noopener">nb</a></td><td>9 min</td></tr>
+            <tr><td>08</td><td>Multi-agent conversation</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/08-multi-agent" target="_blank" rel="noopener">nb</a></td><td>13 min</td></tr>
+            <tr><td>09</td><td>Metacognition (self-critique)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/09-metacognition" target="_blank" rel="noopener">nb</a></td><td>9 min</td></tr>
+            <tr><td>10</td><td>Production checklist & MLOps</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/10-production" target="_blank" rel="noopener">nb</a></td><td>12 min</td></tr>
+            <tr><td>11</td><td>Agent protocols (MCP, A2A)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/11-protocols" target="_blank" rel="noopener">nb</a></td><td>8 min</td></tr>
+            <tr><td>12</td><td>Memory management (Zep, Cosmos)</td><td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/12-memory" target="_blank" rel="noopener">nb</a></td><td>10 min</td></tr>
+        </tbody>
+    </table>
+    <p>Main repo: <a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank" rel="noopener">microsoft/ai-agents-for-beginners</a> | Discord: <a href="https://discord.gg/ai-foundry" target="_blank" rel="noopener">Azure AI Foundry</a></p>
+</section>
+
+<section>
+    <h2>4. Microsoft Learn Badge Paths</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Path</th>
+                <th>Hours</th>
+                <th>Badge</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Azure AI Foundry essentials</td>
+                <td>4 h</td>
+                <td><span class="badge">Badge</span></td>
+                <td><a href="https://learn.microsoft.com/en-us/training/azure/ai-foundry" target="_blank" rel="noopener">Microsoft Learn</a></td>
+            </tr>
+            <tr>
+                <td>Create agentic AI solutions</td>
+                <td>6 h</td>
+                <td><span class="badge">Badge</span></td>
+                <td><a href="https://learn.microsoft.com/en-us/ai/#developer" target="_blank" rel="noopener">AI learning hub</a></td>
+            </tr>
+            <tr>
+                <td>Govern & observe AI apps</td>
+                <td>3 h</td>
+                <td><span class="badge">Badge</span></td>
+                <td><a href="https://learn.microsoft.com/en-us/ai/#developer" target="_blank" rel="noopener">Same hub</a></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>5. Advanced Production Scenarios</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Scenario</th>
+                <th>What you’ll master</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Scalable multi-agent system on AKS</td>
+                <td>Helm, Keda, Cosmos DB state, Agent Service side-cars</td>
+                <td><a href="https://learn.microsoft.com/en-us/ai/#developer" target="_blank" rel="noopener">Tutorial</a></td>
+            </tr>
+            <tr>
+                <td>Computer-use agent (CUA)</td>
+                <td>OmniParser + Azure VMSS to control legacy GUI</td>
+                <td>Lesson 14 (coming) in <a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank" rel="noopener">repo</a></td>
+            </tr>
+            <tr>
+                <td>Secure agents (private endpoints, MSI, RBAC)</td>
+                <td>Lock down storage, Key Vault, AI services</td>
+                <td>Lesson 13 (Securing AI Agents)</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>6. 4-Week Team Roadmap</h2>
+    <ol>
+        <li><strong>Day 0</strong> – Watch 4-min intro video</li>
+        <li><strong>Day 1</strong> – Finish portal quickstart (deploy gpt-4o, playground)</li>
+        <li><strong>Day 2</strong> – Run Lab 2 notebook (code-first agent + SQL tool)</li>
+        <li><strong>Week 1</strong> – Lessons 1-6 (foundations + safety)</li>
+        <li><strong>Week 2</strong> – Lessons 7-10 (planning, multi-agent, production)</li>
+        <li><strong>Week 3</strong> – Pick an advanced path (AKS scaling, Cosmos, PostgreSQL)</li>
+        <li><strong>Week 4</strong> – Ship internal PoC using Agent Service template + evaluation & tracing</li>
+    </ol>
+</section>
+
+</main>
+
+<footer>
+    Generated on 2025-10-31 | All links point to Microsoft-hosted, free resources.
+</footer>
+
+</body>
+</html>
+```

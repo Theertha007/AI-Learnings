@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Agents – Zero-to-Prod Resource Ladder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #222;
+    }
+    header {
+      background: #0d47a1;
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    header p {
+      margin: .5rem 0 0;
+      opacity: .9;
+    }
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    section {
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      border-bottom: 2px solid #0d47a1;
+      padding-bottom: .25rem;
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+    }
+    th, td {
+      padding: .75rem .5rem;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background: #eef2f6;
+    }
+    a {
+      color: #0d47a1;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .badge {
+      display: inline-block;
+      background: #0d47a1;
+      color: #fff;
+      font-size: .7rem;
+      padding: .15rem .35rem;
+      border-radius: 4px;
+      vertical-align: middle;
+    }
+    ol {
+      line-height: 1.8;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: .8rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AI Agents – Zero-to-Prod Resource Ladder</h1>
+  <p>Beginner → Advanced | Free & code-first | Synchronized links</p>
+</header>
+
+<main>
+
+<!-- Stage 0 -->
+<section>
+  <h2>Stage 0 – Foundations (start here)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Topic</th>
+        <th>Resource</th>
+        <th>Why it’s needed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0.1</td>
+        <td>What <em>is</em> an AI agent?</td>
+        <td><a href="https://www.ibm.com/think/ai-agents" target="_blank" rel="noopener">IBM 2025 definitive guide</a></td>
+        <td>10-min read that aligns vocabulary (autonomy, tool-use, multi-agent, RAG, governance)</td>
+      </tr>
+      <tr>
+        <td>0.2</td>
+        <td>Generative-AI primer</td>
+        <td><a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" rel="noopener">Microsoft 12-lesson repo</a></td>
+        <td>Teaches LLM basics, prompting, token limits, embeddings → later used inside agents</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 1 -->
+<section>
+  <h2>Stage 1 – Zero-Code Mental Model (1 day)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resource</th>
+        <th>What you’ll build</th>
+        <th>Next-step bridge</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1.1</td>
+        <td><a href="https://www.analyticsvidhya.com/blog/2024/10/learning-path-for-ai-agents/#Week3" target="_blank" rel="noopener">Analytics Vidhya – Week-3 “No-Code Agent”</a></td>
+        <td>Customer-support bot in Vertex AI Agent Builder (drag & drop)</td>
+        <td>Understand <em>ReAct loop</em> visually before coding it</td>
+      </tr>
+      <tr>
+        <td>1.2</td>
+        <td><a href="https://www.youtube.com/watch?v=3wJt6zTFzLA" target="_blank" rel="noopener">YouTube – n8n ReAct agent (no code)</a></td>
+        <td>Order-tracking agent that calls REST & Slack</td>
+        <td>Exports JSON schema → reuse in Python later</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 2 -->
+<section>
+  <h2>Stage 2 – Python & Tool-Use Essentials (Week 1-2)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resource</th>
+        <th>What you’ll master</th>
+        <th>Dependency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2.1</td>
+        <td><a href="https://dev.to/subeshb1/deep-dive-into-building-ai-agents-with-llms-3d0p" target="_blank" rel="noopener">Deep-Dive DEV.to series</a> + <a href="https://github.com/subeshb1/ai-agents-deep-dive" target="_blank" rel="noopener">repo</a></td>
+        <td>Hand-code ReAct agent: LLM ⇄ calculator + weather API</td>
+        <td>Uses same JSON schema you saw in n8n</td>
+      </tr>
+      <tr>
+        <td>2.2</td>
+        <td><a href="https://lilianweng.github.io/posts/2023-06-23-agent/" target="_blank" rel="noopener">Lilian Weng “LLM Powered Autonomous Agents”</a></td>
+        <td>Mental model: planning, memory, tool-use, reflection</td>
+        <td>Referenced by 90 % of later tutorials—read once, understand forever</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 3 -->
+<section>
+  <h2>Stage 3 – Framework Foundations (Week 3-4)</h2>
+  <p>Same toy-problem (research-trip planner) so you can compare apples-to-apples.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Framework</th>
+        <th>Step-by-step repo / notebook</th>
+        <th>Why next?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>LangChain</strong></td>
+        <td><a href="https://python.langchain.com/docs/use_cases/agents/react" target="_blank" rel="noopener">LangChain ReAct agent – official notebook</a></td>
+        <td>Most tutorials extend this → lowest friction</td>
+      </tr>
+      <tr>
+        <td><strong>CrewAI</strong></td>
+        <td><a href="https://github.com/joaomdmoura/crewAI/tree/main/examples/trip_planner" target="_blank" rel="noopener">CrewAI trip-planner crew</a></td>
+        <td>Same task, but <em>role-based</em> multi-agent</td>
+      </tr>
+      <tr>
+        <td><strong>AutoGen</strong></td>
+        <td><a href="https://github.com/microsoft/autogen/blob/main/notebook/agentchat_trip_planner.ipynb" target="_blank" rel="noopener">AutoGen two-agent chat</a></td>
+        <td>Adds <em>code-execution</em> agent; compares to CrewAI</td>
+      </tr>
+      <tr>
+        <td><strong>LangGraph</strong></td>
+        <td><a href="https://github.com/langchain-ai/langgraph/blob/main/examples/react/react.ipynb" target="_blank" rel="noopener">LangGraph ReAct rebuild</a></td>
+        <td>Shows <em>state-machine</em> view (cycles, memory checkpoints)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 4 -->
+<section>
+  <h2>Stage 4 – Multi-Agent & Advanced Patterns (Week 5-6)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resource</th>
+        <th>Patterns you’ll implement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>4.1</td>
+        <td><a href="https://github.com/microsoft/ai-agents-for-beginners" target="_blank" rel="noopener">Microsoft 12-lesson “AI Agents for Beginners”</a></td>
+        <td>Planning, multi-agent, metacognition, production checklist</td>
+      </tr>
+      <tr>
+        <td>4.2</td>
+        <td><a href="https://github.com/microsoft/autogen/blob/main/notebook/agentchat_groupchat_vis.ipynb" target="_blank" rel="noopener">AutoGen group-chat + code-execution</a></td>
+        <td>Dynamic team formation, speaker selection</td>
+      </tr>
+      <tr>
+        <td>4.3</td>
+        <td><a href="https://github.com/crewAI-inc/crewAI-examples/tree/main/article_from_youtube" target="_blank" rel="noopener">CrewAI “article-from-YouTube” crew</a></td>
+        <td>Researcher → writer → editor pipeline (human-in-the-loop gate)</td>
+      </tr>
+      <tr>
+        <td>4.4</td>
+        <td><a href="https://github.com/langchain-ai/langgraph/blob/main/examples/multi_agent/competitive_analysis.ipynb" target="_blank" rel="noopener">LangGraph multi-agent competitive analysis</a></td>
+        <td>Shared state graph, tool-routing, conditional edges</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 5 -->
+<section>
+  <h2>Stage 5 – Memory, RAG, Guardrails (Week 7)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resource</th>
+        <th>Focus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5.1</td>
+        <td><a href="https://python.langchain.com/docs/use_cases/agents/agentic_rag" target="_blank" rel="noopener">LangChain Agentic RAG</a></td>
+        <td>Agent decides <em>which</em> retriever to call + self-critique</td>
+      </tr>
+      <tr>
+        <td>5.2</td>
+        <td><a href="https://github.com/getzep/zep-examples/tree/main/memory-agents" target="_blank" rel="noopener">Zep long-term memory + agents</a></td>
+        <td>Persistent memory across sessions</td>
+      </tr>
+      <tr>
+        <td>5.3</td>
+        <td><a href="https://github.com/confident-ai/deepeval" target="_blank" rel="noopener">DeepEval – unit-tests for agents</a></td>
+        <td>Faithfulness, tool-selection accuracy, hallucination metrics</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Stage 6 -->
+<section>
+  <h2>Stage 6 – Production & Observability (Week 8)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resource</th>
+        <th>What you’ll ship</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>6.1</td>
+        <td><a href="https://github.com/microsoft/ai-agents-for-beginners/tree/main/10-production" target="_blank" rel="noopener">“AI Agents in Production” – Microsoft lesson 10</a></td>
+        <td>CI/CD, canary, tracing, cost tracking</td>
+      </tr>
+      <tr>
+        <td>6.2</td>
+        <td><a href="https://github.com/Arize-ai/phoenix/blob/main/tutorials/tracing/autogen_tracing_tutorial.ipynb" target="_blank" rel="noopener">Phoenix Arize – trace & eval agent</a></td>
+        <td>OpenTelemetry traces for AutoGen crews</td>
+      </tr>
+      <tr>
+        <td>6.3</td>
+        <td><a href="https://github.com/Portkey-AI/gateway" target="_blank" rel="noopener">Portkey gateway – rate-limit, guardrails, spend-limits</a></td>
+        <td>Drop-in proxy between agent ↔ LLM</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Capstone -->
+<section>
+  <h2>Stage 7 – Capstone Project Ideas (pick one)</h2>
+  <p>All repos include <strong>evaluation datasets</strong> + <strong>docker-compose</strong> so you can present a working system.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>GitHub starter</th>
+        <th>Why it’s impressive</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Slack Dev-Bot</strong></td>
+        <td><a href="https://github.com/Azure-Samples/azure-search-openai-demo-csharp" target="_blank" rel="noopener">template</a></td>
+        <td>Creates Jira, runs unit-tests, opens PR, notifies channel</td>
+      </tr>
+      <tr>
+        <td><strong>Meeting-minute factory</strong></td>
+        <td><a href="https://github.com/crewAI-inc/crewAI-examples/tree/main/meeting_minutes" target="_blank" rel="noopener">crewAI example</a></td>
+        <td>Audio → transcript → summary → action-items → Confluence page</td>
+      </tr>
+      <tr>
+        <td><strong>Self-healing SRE agent</strong></td>
+        <td><a href="https://github.com/microsoft/autogen/tree/main/samples/apps/autogen-remediation" target="_blank" rel="noopener">autogen-remediation</a></td>
+        <td>Detects alert → pulls logs → runs playbook → raises PR with fix</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Roadmap -->
+<section>
+  <h2>8-Week Roadmap (copy into your team wiki)</h2>
+  <ol>
+    <li><strong>Week 0</strong> – Finish Stage 0 &amp; 1 (no-code agent deployed)</li>
+    <li><strong>Week 1</strong> – Stage 2 (hand-coded ReAct agent: calculator + weather)</li>
+    <li><strong>Week 2</strong> – Stage 3 (same task in LangChain, CrewAI, AutoGen, LangGraph)</li>
+    <li><strong>Week 3</strong> – Stage 4 (multi-agent competitive-analysis crew)</li>
+    <li><strong>Week 4</strong> – Stage 5 (Agentic RAG + Zep memory + DeepEval tests)</li>
+    <li><strong>Week 5</strong> – Stage 6 (tracing, gateway, cost-limits in place)</li>
+    <li><strong>Week 6-7</strong> – Capstone (internal PoC demo to team)</li>
+    <li><strong>Week 8</strong> – Production (canary release + observability dashboard)</li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  Generated on 2025-10-31 | All links are free and publicly accessible.
+</footer>
+
+</body>
+</html>
